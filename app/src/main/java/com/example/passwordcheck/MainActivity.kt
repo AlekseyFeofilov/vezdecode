@@ -1,8 +1,10 @@
 package com.example.passwordcheck
 
+import android.content.ClipData
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonBack.setOnClickListener {
             if (currentPassword.isNotEmpty()) {
                 currentPassword = currentPassword.dropLast(1)
-                binding.textView.text = currentPassword
+                binding.debugTextView.text = currentPassword
             }
         }
 
@@ -39,8 +41,21 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener {
                 if (currentPassword.length < 4) {
                     currentPassword += button.text
-                    binding.textView.text = currentPassword
+                    binding.debugTextView.text = currentPassword
                 }
+            }
+            button.setOnHoverListener { view, motionEvent ->
+                currentPassword += button.text
+                binding.debugTextView.text = currentPassword
+                true
+            }
+            button.setOnLongClickListener {
+                currentPassword += button.text
+                binding.debugTextView.text = currentPassword
+                val dummyData = ClipData.newPlainText("dummyData", null)
+                val shadowBuilder = View.DragShadowBuilder(it)
+                it.startDragAndDrop(dummyData, shadowBuilder, it, 0)
+                true
             }
         }
     }
@@ -53,6 +68,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, StoriesActivity::class.java))
             } else {
                 binding.textView.text = getString(R.string.invalid)
+                currentPassword = ""
+                binding.debugTextView.text = ""
             }
         }
     }
@@ -83,4 +100,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
