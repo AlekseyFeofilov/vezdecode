@@ -22,4 +22,6 @@
     <string name="button_info">button_info</string>
     <string name="indicator">indicator</string>
     <string name="password_reset">password reset</string>
+    <string name="name_story">Архитектура</string>
+    <string name="category_story">Подборка для вас</string>
 </resources>
