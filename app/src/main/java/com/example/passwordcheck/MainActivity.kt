@@ -4,10 +4,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.appcompat.app.AppCompatActivity
 import com.example.passwordcheck.databinding.ActivityMainBinding
-
+import kotlin.reflect.KFunction
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,68 +19,91 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         mPrefs = getSharedPreferences("data", 0)
+        mPrefs.edit().clear().apply()
+        val enter: KFunction<Unit>
 
         if (mPrefs.getString("password", "not_found") != "not_found") {
-            setEnterMode()
+            binding.descriptionTextView.text = getString(R.string.enter)
+            enter = ::check
         } else {
-            setSubmitMode()
-        }
-
-        binding.buttonBack.setOnClickListener {
-            if (currentPassword.isNotEmpty()) {
-                currentPassword = currentPassword.dropLast(1)
-                binding.textView.text = currentPassword
-            }
+            binding.descriptionTextView.text = getString(R.string.submit)
+            enter = ::submit
         }
 
         binding.buttons.referencedIds.forEach { id ->
             val button = findViewById<Button>(id)
 
             button.setOnClickListener {
-                if (currentPassword.length < 4) {
-                    currentPassword += button.text
-                    binding.textView.text = currentPassword
+                currentPassword += button.text
+                activateIndicator(currentPassword.length)
+
+                if(currentPassword.length == 4){
+                    enter()
                 }
+            }
+        }
+
+        binding.buttonBack.setOnClickListener {
+            if (currentPassword.isNotEmpty()) {
+                deactivateIndicator(currentPassword.length)
+                currentPassword = currentPassword.dropLast(1)
             }
         }
     }
 
-    private fun setEnterMode() {
-        binding.submitOrEnterButton.text = getString(R.string.enter)
+    private fun activateIndicator(index: Int) {
+        when (index) {
+            1 -> binding.indicator1.setImageResource(R.drawable.active_indicator)
+            2 -> binding.indicator2.setImageResource(R.drawable.active_indicator)
+            3 -> binding.indicator3.setImageResource(R.drawable.active_indicator)
+            4 -> binding.indicator4.setImageResource(R.drawable.active_indicator)
+        }
+    }
 
-        binding.submitOrEnterButton.setOnClickListener {
-            if (currentPassword == mPrefs.getString("password", "not_found")) {
+    private fun deactivateIndicator(index: Int) {
+        when (index) {
+            1 -> binding.indicator1.setImageResource(R.drawable.inactive_indicator)
+            2 -> binding.indicator2.setImageResource(R.drawable.inactive_indicator)
+            3 -> binding.indicator3.setImageResource(R.drawable.inactive_indicator)
+            4 -> binding.indicator4.setImageResource(R.drawable.inactive_indicator)
+        }
+    }
+
+    private fun check() {
+        if (currentPassword == mPrefs.getString("password", "not_found")) {
+            startActivity(Intent(this, StoriesActivity::class.java))
+        } else {
+            binding.descriptionTextView.text = getString(R.string.invalid)
+            clearPassword()
+        }
+    }
+
+    private fun clearPassword() {
+        currentPassword = ""
+
+        for (i in 1 until 4) {
+            deactivateIndicator(i)
+        }
+    }
+
+    private fun submit() {
+        when {
+            mPrefs.getString("password", "not_found") == "not_found" -> {
+                mPrefs.edit().putString("password", currentPassword).apply()
+                binding.descriptionTextView.text = getString(R.string.confirm)
+                clearPassword()
+            }
+
+            currentPassword == mPrefs.getString("password", "not_found") -> {
                 startActivity(Intent(this, StoriesActivity::class.java))
-            } else {
-                binding.textView.text = getString(R.string.invalid)
             }
-        }
-    }
 
-    private fun setSubmitMode() {
-        binding.submitOrEnterButton.text = getString(R.string.submit)
-
-        binding.submitOrEnterButton.setOnClickListener {
-            when {
-                currentPassword.length < 4 -> binding.textView.text =
-                    resources.getString(R.string.show_incorrect)
-
-                mPrefs.getString("password", "not_found") == "not_found" -> {
-                    mPrefs.edit().putString("password", currentPassword).apply()
-                    binding.textView.text = getString(R.string.confirm)
-                    currentPassword = ""
-                }
-
-                currentPassword == mPrefs.getString("password", "not_found") -> {
-                    startActivity(Intent(this, StoriesActivity::class.java))
-                }
-
-                else -> {
-                    binding.textView.text = getString(R.string.failConfirm)
-                    mPrefs.edit().clear().apply()
-                    currentPassword = ""
-                }
+            else -> {
+                binding.descriptionTextView.text = getString(R.string.failConfirm)
+                mPrefs.edit().clear().apply()
+                clearPassword()
             }
         }
     }
