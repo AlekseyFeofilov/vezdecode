@@ -164,5 +164,6 @@ class MainActivity : AppCompatActivity() {
                 clearPassword()
             }
         }
+
     }
 }
