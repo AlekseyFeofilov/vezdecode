@@ -2,13 +2,16 @@ package com.example.passwordcheck
 
 import ViewPagerAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.passwordcheck.databinding.ActivityStoriesBinding
+import jp.wasabeef.blurry.Blurry
 import java.sql.Date
 
 class StoriesActivity : AppCompatActivity() {
@@ -20,6 +23,11 @@ class StoriesActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stories)
         binding.viewPager2.adapter = ViewPagerAdapter(this)
 
+        binding.passwordResetImageView.setOnClickListener {
+            val mPrefs = getSharedPreferences("data", 0)
+            mPrefs.edit().clear().apply()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
 
     //по таймеру
