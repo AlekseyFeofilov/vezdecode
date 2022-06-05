@@ -16,4 +16,10 @@
     <string name="submit">Submit</string>
     <string name="confirm">Confirm password</string>
     <string name="failConfirm">Invalid password. Try again</string>
+    <string name="button_back">back</string>
+    <string name="enter_password">Enter password</string>
+    <string name="mail_icon">mail_icon</string>
+    <string name="button_info">button_info</string>
+    <string name="indicator">indicator</string>
+    <string name="password_reset">password reset</string>
 </resources>
