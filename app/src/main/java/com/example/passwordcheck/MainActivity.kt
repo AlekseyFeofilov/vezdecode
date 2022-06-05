@@ -1,21 +1,34 @@
 package com.example.passwordcheck
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Button
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.appcompat.app.AppCompatActivity
 import com.example.passwordcheck.databinding.ActivityMainBinding
+import kotlin.math.abs
 import kotlin.reflect.KFunction
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mPrefs: SharedPreferences
+
     private var currentPassword = ""
     private val passwordLength = 4
+    private val longHoverDelay: Long = 500
 
+    private val cursor = object {
+        var buttonHover: Button? = null
+        var previousTime = Long.MAX_VALUE
+        var active = false
+        var x_pos = 0f
+        var y_pos = 0f
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             binding.descriptionTextView.text = getString(R.string.enter)
             enter = ::check
         } else {
-            binding.descriptionTextView.text = getString(R.string.submit)
+            binding.descriptionTextView.text = getString(R.string.enter_new_password)
             enter = ::submit
         }
 
@@ -39,8 +52,49 @@ class MainActivity : AppCompatActivity() {
                 currentPassword += button.text
                 activateIndicator(currentPassword.length)
 
-                if(currentPassword.length == passwordLength){
+                if (currentPassword.length == passwordLength) {
                     enter()
+                }
+            }
+        }
+
+        binding.layout.setOnTouchListener { _, motionEvent ->
+            cursor.x_pos = motionEvent.x
+            cursor.y_pos = motionEvent.y
+
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    binding.buttons.referencedIds.forEach { id ->
+                        val button = findViewById<Button>(id)
+
+                        when {
+                            cursor.buttonHover == null && !triggerOnButton(button) -> return@forEach
+                            cursor.buttonHover == null && triggerOnButton(button) -> {
+                                cursor.buttonHover = button
+                                cursor.previousTime = System.currentTimeMillis()
+                            }
+                            triggerOnButton(cursor.buttonHover!!) -> return@forEach
+                            System.currentTimeMillis() - cursor.previousTime < longHoverDelay -> {
+                                cursor.buttonHover = null
+                            }
+                            else -> {
+                                cursor.buttonHover!!.performClick()
+                                cursor.buttonHover = null
+                            }
+                        }
+                    }
+
+                    true
+                }
+
+                MotionEvent.ACTION_DOWN -> {
+                    cursor.active = false
+                    true
+                }
+                else -> {
+                    cursor.active = true
+                    cursor.buttonHover = null
+                    false
                 }
             }
         }
@@ -52,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun triggerOnButton(button: Button) =
+        abs(button.x + button.width / 2 - cursor.x_pos) < button.width / 2 &&
+                abs(button.y + button.height / 2 - cursor.y_pos) < button.height / 2
 
     private fun activateIndicator(index: Int) {
         when (index) {
