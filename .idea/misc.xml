@@ -9,7 +9,10 @@
         <entry key="..\:/Users/Aleksey/AndroidStudioProjects/PasswordCheck/app/src/main/res/layout/activity_stories.xml" value="0.264" />
         <entry key="..\:/Users/Aleksey/AndroidStudioProjects/PasswordCheck/app/src/main/res/layout/fragment_vewpager.xml" value="0.2520833333333333" />
         <entry key="app/src/main/res/drawable/rectangle.xml" value="0.12" />
-        <entry key="app/src/main/res/layout/activity_stories.xml" value="0.17600639161076767" />
+        <entry key="app/src/main/res/layout/activity_stories.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_vewpager.xml" value="0.2015625" />
+        <entry key="app/src/main/res/layout/stories_item.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/layout/story_item.xml" value="0.25" />
       </map>
     </option>
   </component>

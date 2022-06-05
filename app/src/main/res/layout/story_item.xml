@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <LinearLayout
+            android:id="@+id/linearStory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="700dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="37dp"
+                android:layout_height="2dp"
+                android:background="@drawable/rectangle"
+                android:layout_marginEnd="4dp"
+                android:viewportWidth="36"
+                android:viewportHeight="2" />
+
+            <ImageView
+                android:id="@+id/story2"
+                android:layout_width="37dp"
+                android:layout_height="2dp"
+                android:background="@drawable/rectangle"
+                android:alpha="0.5"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:viewportWidth="36"
+                android:viewportHeight="2" />
+
+            <ImageView
+                android:id="@+id/story3"
+                android:layout_width="37dp"
+                android:layout_height="2dp"
+                android:background="@drawable/rectangle"
+                android:alpha="0.5"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:viewportWidth="36"
+                android:viewportHeight="2" />
+
+            <ImageView
+                android:id="@+id/story4"
+                android:layout_width="37dp"
+                android:layout_height="2dp"
+                android:background="@drawable/rectangle"
+                android:alpha="0.5"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:viewportWidth="36"
+                android:viewportHeight="2" />
+
+            <ImageView
+                android:id="@+id/story5"
+                android:layout_width="37dp"
+                android:layout_height="2dp"
+                android:background="@drawable/rectangle"
+                android:alpha="0.5"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:viewportWidth="36"
+                android:viewportHeight="2" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/story"
+            android:layout_width="match_parent"
+            android:layout_height="466dp"
+            android:background="@drawable/new_york"
+            app:layout_constraintCircleRadius="4dp"
+            android:layout_marginTop="173dp"
+            android:layout_marginBottom="174dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="616dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="155dp"
+            android:layout_marginBottom="119dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/nameStory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_story"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                android:gravity="top"
+                android:lineSpacingExtra="0sp"
+                android:translationY="-0.24sp"
+                tools:layout_editor_absoluteX="27dp"
+                tools:layout_editor_absoluteY="600dp" />
+
+            <TextView
+                android:id="@+id/categoryStory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_story"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:gravity="top"
+                android:translationY="-1.48sp"
+                android:lineSpacingExtra="3sp"
+                android:alpha="0.8"
+                tools:layout_editor_absoluteX="27dp"
+                tools:layout_editor_absoluteY="645dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

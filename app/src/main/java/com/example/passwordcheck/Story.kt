@@ -1,11 +1,11 @@
 package com.example.passwordcheck
 
-import java.sql.Date
+import android.graphics.drawable.Drawable
 
 public class Story(
     var title: String,
-    var image: Int,
-    var date: Date,
+    var image: Drawable?,
+    var date: String,
     var location: String,
     var description: String
 ) {
