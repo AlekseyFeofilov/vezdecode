@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mPrefs: SharedPreferences
     private var currentPassword = ""
+    private val passwordLength = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mPrefs = getSharedPreferences("data", 0)
-        mPrefs.edit().clear().apply()
         val enter: KFunction<Unit>
 
         if (mPrefs.getString("password", "not_found") != "not_found") {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 currentPassword += button.text
                 activateIndicator(currentPassword.length)
 
-                if(currentPassword.length == 4){
+                if(currentPassword.length == passwordLength){
                     enter()
                 }
             }
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun clearPassword() {
         currentPassword = ""
 
-        for (i in 1 until 4) {
+        for (i in 1..passwordLength) {
             deactivateIndicator(i)
         }
     }
